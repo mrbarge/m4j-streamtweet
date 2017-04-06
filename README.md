@@ -1,4 +1,4 @@
-**m4j-streamtweet**
+**mxj-streamtweet**
 ===================
 
 A plugin for Max (cycling74.com) which provides a real-time stream of Twitter status 
@@ -14,10 +14,10 @@ In progress:
 Build
 -----
 
-m4j-streamtweet requires the installation of Max and its associated mxj libraries. The location of 
+mxj-streamtweet requires the installation of Max and its associated mxj libraries. The location of 
 your Max installation can be supplied as the property `max.installdir`.
 
-m4j-streamtweet provides a Maven build file and can be compiled and packaged using:
+mxj-streamtweet provides a Maven build file and can be compiled and packaged using:
 
 `mvn -Dmax.installdir=/path/to/Max/basedir package`
 
@@ -52,7 +52,7 @@ License
 
 See LICENSE
 
-m4j-streamtweet also makes use of:
+mxj-streamtweet also makes use of:
  * Hosebird Client (https://github.com/twitter/hbc), licensed under the Apache License (http://www.apache.org/licenses/LICENSE-2.0)
   
 
