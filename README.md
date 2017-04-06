@@ -42,6 +42,21 @@ The included `StreamTweet.maxpat` patch illustrates how to use the plugin.
 Note that OAuth credentials are not provided and must be registered via https://dev.twitter.com, and then set as the plugin arguments.
 Dummy values have been inserted into the patch in their place.
 
+Author
+------
+
+Matt Bargenquast
+
+License
+-------
+
+See LICENSE
+
+m4j-streamtweet also makes use of:
+ * Hosebird Client (https://github.com/twitter/hbc), licensed under the Apache License (http://www.apache.org/licenses/LICENSE-2.0)
+  
+
+
 
 
 
