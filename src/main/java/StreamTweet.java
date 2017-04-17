@@ -30,6 +30,10 @@ public class StreamTweet extends MaxObject {
 
     /** List of bounding-box locations to filter tweets from */
     private List<Location> locations;
+    /** List of terms to filter tweets from */
+    private List<String> terms;
+    /** List of userIDs to filter from */
+    private List<Long> userIDs;
 
     /** HBC endpoint configuration */
     private static int ENDPOINT_CAPACITY = 100;
@@ -44,6 +48,8 @@ public class StreamTweet extends MaxObject {
 
         this.thread = new Thread();
         this.locations = new ArrayList<Location>();
+        this.terms = new ArrayList<String>();
+        this.userIDs = new ArrayList<Long>();
         this.msgQueue = new LinkedBlockingQueue<String>(StreamTweet.ENDPOINT_CAPACITY);
 
         declareInlets(new int[] {
@@ -60,6 +66,8 @@ public class StreamTweet extends MaxObject {
         declareAttribute("OAuthConsumerKey");
         declareAttribute("OAuthConsumerSecret");
         declareAttribute("LocationFilter", null, "addLocationFilter");
+        declareAttribute("UserIDFilter", null, "addUserIDFilter");
+        declareAttribute("TermFilter", null, "addTermFilter");
     }
 
     /**
@@ -93,6 +101,40 @@ public class StreamTweet extends MaxObject {
             }
         } else {
             this.locations = new ArrayList<Location>();
+        }
+    }
+
+    /**
+     * Adds a term filter to the Twitter streaming endpoint.
+     * If the supplied array is empty the term filter is cleared.
+     *
+     * @param args array representing terms to filter
+     */
+    private void addTermFilter(Atom[] args) {
+
+        if (args.length > 0) {
+            for (Atom a : args) {
+                this.terms.add(a.getString());
+            }
+        } else {
+            this.terms = new ArrayList<String>();
+        }
+    }
+
+    /**
+     * Adds a term filter to the Twitter streaming endpoint.
+     * If the supplied array is empty the term filter is cleared.
+     *
+     * @param args array representing terms to filter
+     */
+    private void addUserIDFilter(Atom[] args) {
+
+        if (args.length > 0) {
+            for (Atom a : args) {
+                this.userIDs.add(a.toLong());
+            }
+        } else {
+            this.userIDs = new ArrayList<Long>();
         }
     }
 
@@ -149,7 +191,17 @@ public class StreamTweet extends MaxObject {
     private void setupClient() {
         Hosts hosebirdHosts = new HttpHosts(Constants.STREAM_HOST);
         StatusesFilterEndpoint hosebirdEndpoint = new StatusesFilterEndpoint();
-        hosebirdEndpoint.locations(this.locations);
+        if (this.locations.size() > 0) {
+            hosebirdEndpoint.locations(this.locations);
+        }
+        if (this.terms.size() > 0) {
+            for (String s : this.terms) {
+                System.out.println("Tracking term " + s);
+            }
+            hosebirdEndpoint.trackTerms(this.terms);
+        }
+        if (this.userIDs.size() > 0)
+            hosebirdEndpoint.followings(this.userIDs);
 
         Authentication hosebirdAuth = new OAuth1(this.OAuthConsumerKey, this.OAuthConsumerSecret,
                 this.OAuthAccessToken, this.OAuthAccessSecret);

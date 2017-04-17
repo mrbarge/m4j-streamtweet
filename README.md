@@ -5,12 +5,10 @@ A plugin for Max (cycling74.com) which provides a real-time stream of Twitter st
 updates based upon the provided search filters.
  
 Currently supported search filters:
- * Location-based bounding boxes
+ * Location-based bounding boxes (Max @LocationFilter attribute)
+ * User ID filters (Max @UserIDFilter attribute)
+ * Term filters (Max @TermFilter attribute)
  
-In progress:
- * Tags
- * Usernames
-
 Build
 -----
 
